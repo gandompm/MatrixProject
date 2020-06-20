@@ -4,11 +4,11 @@
 using namespace std;
 
 
-Matrix::Matrix(double* array, int row, int col) {
+Matrix::Matrix(double* arra, int row, int col) {
 
 	cout << "constructor is being called" << endl;
 	setRowCol(row, col);
-	data = array;
+	data = arra;
 }
 
 
