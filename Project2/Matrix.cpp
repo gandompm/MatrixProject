@@ -67,7 +67,7 @@ void Matrix::printData() {
 }
 
 
-Matrix* Matrix::operator+(Matrix& m2) {
+Matrix* Matrix::operator+(const Matrix& m2) const{
 
 	assert(this->row == m2.row && this->col == m2.col);
 	int counter = 0;
@@ -85,7 +85,7 @@ Matrix* Matrix::operator+(Matrix& m2) {
 }
 
 
-Matrix* Matrix::operator-(Matrix& m2) {
+Matrix* Matrix::operator-(const Matrix& m2) const{
 
 	assert(this->row == m2.row && this->col == m2.col);
 	int counter = 0;
@@ -98,11 +98,11 @@ Matrix* Matrix::operator-(Matrix& m2) {
 			counter++;
 		}
 	}
-	return this;
+	return m3;
 }
 
 
-Matrix* Matrix::operator*(Matrix& m2) {
+Matrix* Matrix::operator*(const Matrix& m2) const{
 
 	assert(this->col == m2.row);
 	Matrix* m3 = new Matrix(row, m2.col);
@@ -124,7 +124,7 @@ Matrix* Matrix::operator*(Matrix& m2) {
 }
 
 
-void Matrix::operator=(Matrix* m2) {
+void Matrix::operator=(const Matrix* m2) {
 	setRowCol(m2->row, m2->col);
 	int counter = 0;
 	for (int i = 0; i < row; i++)
@@ -156,25 +156,25 @@ void Matrix::operator=(Matrix&& m2) noexcept {
 
 
 
-void Matrix::operator+=(Matrix& m2) {
+void Matrix::operator+=(const Matrix& m2){
 
 	*this = *this + m2;
 }
 
 
-void Matrix::operator-=(Matrix& m2) {
+void Matrix::operator-=(const Matrix& m2) {
 
 	*this = *this - m2;
 }
 
 
-void Matrix::operator*=(Matrix& m2) {
+void Matrix::operator*=(const Matrix& m2) {
 
 	*this = *this * m2;
 }
 
 
-bool Matrix::operator==(Matrix& m2) {
+bool Matrix::operator==(const Matrix& m2) const{
 
 	int counter = 0;
 	if (this->row == m2.row && this->col == m2.col)
@@ -198,7 +198,7 @@ bool Matrix::operator==(Matrix& m2) {
 }
 
 
-bool Matrix::operator!=(Matrix& m2) {
+bool Matrix::operator!=(const Matrix& m2) const{
 
 	int counter = 0;
 	if (this->row == m2.row && this->col == m2.col)
@@ -233,4 +233,10 @@ int Matrix::getCol() {
 
 Matrix::~Matrix() {
 	cout << "destructor is being called" << endl;
+
+	if (data)
+	{
+		//delete data;
+		data = nullptr;
+	}
 }
