@@ -1,10 +1,13 @@
+/*
+
+
 #include "Matrix.h"
-#include <cassert> 
+#include <cassert>
 #include <iostream>
 using namespace std;
 
-
-Matrix::Matrix(double* arra, int row, int col) {
+template <typename T>
+Matrix<T>::Matrix(T* arra, int row, int col) {
 
 	cout << "constructor is being called" << endl;
 	setRowCol(row, col);
@@ -12,28 +15,31 @@ Matrix::Matrix(double* arra, int row, int col) {
 }
 
 
-Matrix::Matrix(int row, int col) {
+template <typename T>
+Matrix<T>::Matrix(int row, int col) {
 
 	cout << "constructor 2 is being called" << endl;
 	setRowCol(row, col);
 	int counter = 0;
-	data = new double[(row * col)];
+	data = new T[(row * col)];
 	for (int i = 0; i < row; i++)
 	{
 		for (int j = 0; j < col; j++)
 		{
 			data[counter++] = 0;
-			// memset 
+			// memset
 		}
 	}
 }
 
-Matrix::Matrix(Matrix & ma) {
+template <typename T>
+Matrix<T>::Matrix(Matrix & ma) {
 	cout << "copy constructor is being called" << endl;
 	*this = &ma;
 }
 
-Matrix::Matrix(Matrix && matrix) noexcept {
+template <typename T>
+Matrix<T>::Matrix(Matrix && matrix) noexcept {
 
 	cout << "move constructor is being called" << endl;
 	this->row = std::move(matrix.row);
@@ -48,13 +54,15 @@ Matrix::Matrix(Matrix && matrix) noexcept {
 	}
 }
 
-void Matrix::setRowCol(int r, int c) {
+ template <typename T>
+ void Matrix<T>::setRowCol(int r, int c) {
 	row = r;
 	col = c;
 }
 
 
-void Matrix::printData() {
+ template <typename T>
+ void Matrix<T>::printData() {
 	int counter = 0;
 	for (int i = 0; i < row; i++)
 	{
@@ -66,8 +74,8 @@ void Matrix::printData() {
 	}
 }
 
-
-Matrix* Matrix::operator+(Matrix& m2) {
+ template <typename T>
+Matrix<T>* Matrix<T>::operator+(Matrix& m2) {
 
 	assert(this->row == m2.row && this->col == m2.col);
 	int counter = 0;
@@ -84,8 +92,8 @@ Matrix* Matrix::operator+(Matrix& m2) {
 	return m3;
 }
 
-
-Matrix* Matrix::operator-(Matrix& m2) {
+template <typename T>
+Matrix<T>* Matrix<T>::operator-(Matrix& m2) {
 
 	assert(this->row == m2.row && this->col == m2.col);
 	int counter = 0;
@@ -102,7 +110,8 @@ Matrix* Matrix::operator-(Matrix& m2) {
 }
 
 
-Matrix* Matrix::operator*(Matrix& m2) {
+template <typename T>
+Matrix<T>* Matrix<T>::operator*(Matrix& m2) {
 
 	assert(this->col == m2.row);
 	Matrix* m3 = new Matrix(row, m2.col);
@@ -118,13 +127,14 @@ Matrix* Matrix::operator*(Matrix& m2) {
 			counter++;
 		}
 	}
-	// we retrun the address of a local variable! does that make sence? 
+	// we retrun the address of a local variable! does that make sence?
 	// at the end of the scope it will be destroyed!
 	return m3;
 }
 
 
-void Matrix::operator=(Matrix* m2) {
+template <typename T>
+void Matrix<T>::operator=(Matrix* m2) {
 	setRowCol(m2->row, m2->col);
 	int counter = 0;
 	for (int i = 0; i < row; i++)
@@ -137,8 +147,8 @@ void Matrix::operator=(Matrix* m2) {
 	}
 }
 
-
-void Matrix::operator=(Matrix&& m2) noexcept {
+template <typename T>
+void Matrix<T>::operator=(Matrix&& m2) noexcept {
 
 	this->row = std::move(m2.row);
 	this->col = std::move(m2.col);
@@ -155,26 +165,26 @@ void Matrix::operator=(Matrix&& m2) noexcept {
 
 
 
-
-void Matrix::operator+=(Matrix& m2) {
+template <typename T>
+void Matrix<T>::operator+=(Matrix& m2) {
 
 	*this = *this + m2;
 }
 
-
-void Matrix::operator-=(Matrix& m2) {
+template <typename T>
+void Matrix<T>::operator-=(Matrix& m2) {
 
 	*this = *this - m2;
 }
 
-
-void Matrix::operator*=(Matrix& m2) {
+template <typename T>
+void Matrix<T>::operator*=(Matrix& m2) {
 
 	*this = *this * m2;
 }
 
-
-bool Matrix::operator==(Matrix& m2) {
+template <typename T>
+bool Matrix<T>::operator==(Matrix& m2) {
 
 	int counter = 0;
 	if (this->row == m2.row && this->col == m2.col)
@@ -198,7 +208,8 @@ bool Matrix::operator==(Matrix& m2) {
 }
 
 
-bool Matrix::operator!=(Matrix& m2) {
+template <typename T>
+bool Matrix<T>::operator!=(Matrix& m2) {
 
 	int counter = 0;
 	if (this->row == m2.row && this->col == m2.col)
@@ -222,15 +233,19 @@ bool Matrix::operator!=(Matrix& m2) {
 }
 
 
-int Matrix::getRow() {
+template <typename T>
+int Matrix<T>::getRow() {
 	return row;
 }
 
-
-int Matrix::getCol() {
+template <typename T>
+int Matrix<T>::getCol() {
 	return col;
 }
 
-Matrix::~Matrix() {
+template <typename T>
+ Matrix<T>::~Matrix() {
 	cout << "destructor is being called" << endl;
 }
+*/
+
