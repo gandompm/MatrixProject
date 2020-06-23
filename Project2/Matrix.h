@@ -5,7 +5,7 @@ class Matrix
 {
 private: 
 	// how to have an array with undefined size!! 
-	double * data;
+	double ** data;
 	int row;
 	int col;
 	void setRowCol(int, int);
@@ -13,7 +13,7 @@ private:
 	
 public: 
 	Matrix(int,int);
-	Matrix(double*,int,int);
+	Matrix(double**,int,int);
 	Matrix(Matrix&); // copy constructor 
 	Matrix(Matrix&&) noexcept; // move constructor 
 	void printData(); 

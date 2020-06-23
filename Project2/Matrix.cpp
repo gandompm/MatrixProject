@@ -4,7 +4,7 @@
 using namespace std;
 
 
-Matrix::Matrix(double* arra, int row, int col) {
+Matrix::Matrix(double** arra, int row, int col) {
 
 	cout << "constructor is being called" << endl;
 	setRowCol(row, col);
@@ -17,7 +17,8 @@ Matrix::Matrix(int row, int col) {
 	cout << "constructor 2 is being called" << endl;
 	setRowCol(row, col);
 	int counter = 0;
-	data = new double[(row * col)];
+	double* pointer = new double[(row * col)];
+	data = &pointer;
 	for (int i = 0; i < row; i++)
 	{
 		for (int j = 0; j < col; j++)
