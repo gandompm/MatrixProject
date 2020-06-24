@@ -12,7 +12,7 @@ private:
 	// initializing the instance variables 
 	void setRowCol(int, int);
 
-	
+
 public: 
 	// constructor without any data 
 	Matrix(int,int);

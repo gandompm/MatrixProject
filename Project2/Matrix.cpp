@@ -4,11 +4,20 @@
 using namespace std;
 
 
-Matrix::Matrix(double* arra, int row, int col) {
+Matrix::Matrix(double* array, int row, int col) {
 
 	cout << "constructor is being called" << endl;
 	setRowCol(row, col);
-	data = arra;
+	int counter = 0;
+	data = new double[static_cast<int64_t>(row) * static_cast<int64_t>(col)];
+	for (int i = 0; i < row; i++)
+	{
+		for (int j = 0; j < col; j++)
+		{
+			data[counter] = *(array + counter);
+			counter ++;
+		}
+	}
 }
 
 
@@ -17,36 +26,41 @@ Matrix::Matrix(int row, int col) {
 	cout << "constructor 2 is being called" << endl;
 	setRowCol(row, col);
 	int counter = 0;
-	data = new double[(row * col)];
+	data = new double[int64_t(row * col)];
 	for (int i = 0; i < row; i++)
 	{
 		for (int j = 0; j < col; j++)
 		{
 			data[counter++] = 0;
-			// memset 
 		}
 	}
 }
 
-Matrix::Matrix(Matrix & ma) {
+Matrix::Matrix(Matrix & newMatrix) {
 	cout << "copy constructor is being called" << endl;
-	*this = &ma;
+	setRowCol(newMatrix.row, newMatrix.col);
+	int counter = 0;
+	data = new double[int64_t(newMatrix.row * newMatrix.col)];
+	for (int i = 0; i < row; i++)
+	{
+		for (int j = 0; j < col; j++)
+		{
+			data[counter] = newMatrix.data[counter];
+			counter++;
+		}
+	}
 }
 
-Matrix::Matrix(Matrix && matrix) noexcept {
+Matrix::Matrix(Matrix&& matrix) noexcept {
 
 	cout << "move constructor is being called" << endl;
 	this->row = std::move(matrix.row);
 	this->col = std::move(matrix.col);
 	int counter = 0;
-	for (int i = 0; i < row; i++)
-	{
-		for (int j = 0; j < col; j++)
-		{
-			this->data[counter] = std::move(matrix.data[counter]);
-		}
-	}
+	this->data = matrix.data;
+	matrix.data = nullptr;
 }
+
 
 void Matrix::setRowCol(int r, int c) {
 	row = r;
@@ -118,8 +132,7 @@ Matrix* Matrix::operator*(const Matrix& m2) const{
 			counter++;
 		}
 	}
-	// we retrun the address of a local variable! does that make sence? 
-	// at the end of the scope it will be destroyed!
+
 	return m3;
 }
 
@@ -142,15 +155,9 @@ void Matrix::operator=(Matrix&& m2) noexcept {
 
 	this->row = std::move(m2.row);
 	this->col = std::move(m2.col);
-	int counter = 0;
-	for (int i = 0; i < row; i++)
-	{
-		for (int j = 0; j < col; j++)
-		{
-			this->data[counter] = std::move(m2.data[counter]);
-			counter++;
-		}
-	}
+	
+	this->data = m2.data;
+	m2.data = nullptr;
 }
 
 
@@ -232,11 +239,11 @@ int Matrix::getCol() {
 }
 
 Matrix::~Matrix() {
-	cout << "destructor is being called" << endl;
 
-	if (data)
+	cout << "destructor is being called" << endl;
+	if (data != nullptr)
 	{
-		//delete data;
+		delete data;
 		data = nullptr;
 	}
 }
